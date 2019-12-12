@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    </div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Departments</h2>
+        <p>
+            <input type="button" class="btn btn-primary" value="Save Department" onclick="@("window.location.href='" + @Url.Action("Save", "Department") + "'");" />
+        </p>
+        <p>
+            <input type="button" class="btn btn-primary" value="Show Department" onclick="@("window.location.href='" + @Url.Action("ShowDepartment", "Department") + "'");" />
+        </p>
+    </div>
+
+    <div class="col-md-4">
+        <h2>Course</h2>
+        <p>
+            <input type="button" class="btn btn-primary" value="Save Crouse" onclick="@("window.location.href='" + @Url.Action("Save", "Course") + "'");" />
+        </p>
+        <p>
+            <input type="button" class="btn btn-primary" value="Enroll Crouse" onclick="@("window.location.href='" + @Url.Action("EnrollCourse", "Course") + "'");" />
+        </p>
+        <p>
+            <input type="button" class="btn btn-primary" value="Unassaign Crouse" onclick="@("window.location.href='" + @Url.Action("unassaignAllCourse", "Course") + "'");" />
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Teacher</h2>
+        <p>
+            <input type="button" class="btn btn-primary" value="Save Teacher" onclick="@("window.location.href='" + @Url.Action("Save", "Teacher") + "'");" />
+        </p>
+        <p>
+            <input type="button" class="btn btn-primary" value="Assaign Teacher" onclick="@("window.location.href='" + @Url.Action("Save", "TeacherAssaign") + "'");" />
+        </p>
+        <p>
+            <input type="button" class="btn btn-primary" value="Assaign Crouse to Teacher" onclick="@("window.location.href='" + @Url.Action("showAssaignedCourse", "TeacherAssaign") + "'");" />
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Student</h2>
+        <p>
+            <input type="button" class="btn btn-primary" value="Student Registration" onclick="@("window.location.href='" + @Url.Action("StudentRegitration", "Student") + "'");" />
+        </p>
+        <p>
+            <input type="button" class="btn btn-primary" value="Student Result Save" onclick="@("window.location.href='" + @Url.Action("StudentGrade", "Student") + "'");" />
+        </p>
+
+    </div>
+    <div class="col-md-4">
+        <h2>Allocate Classroom</h2>
+        <p>
+            <input type="button" class="btn btn-primary" value="Allocate Classroom" onclick="@("window.location.href='" + @Url.Action("SaveClassRooms", "AllocateClassRooms") + "'");" />
+        </p>
+        <p>
+            <input type="button" class="btn btn-primary" value="Class Schedule" onclick="@("window.location.href='" + @Url.Action("ShowClassRoom", "AllocateClassRooms") + "'");" />
+        </p>
+        <p>
+            <input type="button" class="btn btn-primary" value="Unallocate Classroom" onclick="@("window.location.href='" + @Url.Action("unallocateAllRooms", "AllocateClassRooms") + "'");" />
+        </p>
+    </div>
+
+</div>

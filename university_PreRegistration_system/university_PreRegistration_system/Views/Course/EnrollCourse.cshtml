@@ -1,0 +1,181 @@
+﻿@using university_PreRegistration_system.Models
+@model EnrollCourse
+@{
+    ViewBag.Title = "EnrollCourse";
+    Layout = null;
+    List<Student> students = ViewBag.students;
+    List<Course> courses = ViewBag.courses;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<body>
+    @using (Html.BeginForm(null, null, FormMethod.Post))
+    {
+        <table>
+            <tr>
+                <td>
+                    @Html.Label("Student Registration Id")
+                </td>
+
+                <td>
+                    <select id="StudentRegistrationNo" name="StudentRegistrationNo">
+                        <option value="">--Select--</option>
+                        @foreach (Student student in students)
+                        {
+                            <option value="@student.RegistrationId">@student.RegistrationId</option>
+                        }
+                    </select>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Name)
+                </td>
+
+                <td>
+                    <input type="text" readonly="readonly" name="Name" id="Name" /><br />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Department)
+
+                </td>
+                <td>
+                    @*@Html.TextBoxFor(x=>x.Department)*@
+                    <input type="text" readonly="readonly" name="Department" id="Department" /><br />
+                    @*<input type="hidden" name="TeacherName" id="TeacherName" />*@
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.Label("Course Code")
+                </td>
+
+                <td>
+                    <select id="CourseId" name="CourseId">
+                        <option value="">--Select--</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.Label("Date")
+
+                </td>
+                <td>
+                    @*<input type="text" readonly="readonly" name="Date" id="Date" /><br />*@
+
+                    @Html.EditorFor(x => x.Date,
+                    new { htmlAttributes = new { @class = "form-control date-picker" } })
+
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td> <input type="submit" /> </td>
+            </tr>
+        </table>
+
+    }
+    <p>
+        <input type="button" class="btn btn-primary" value="Back" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" />
+    </p>
+    @if (ViewBag.Message != null)
+    {
+        <h3>@ViewBag.Message</h3>
+    }
+
+    <link href="~/Styles/jquery-ui.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".date-picker").datepicker({
+                dateFormat: 'dd-M-yy'
+            });
+
+        });
+    </script>
+    <script>
+
+        $(document).ready(function () {
+            $("#StudentRegistrationNo").change(function () {
+
+               //var RegistrationId = $("#RegistrationId").val();
+                $("#Name").empty();
+                $("#Name").val("");
+                $("#Department").val("");
+                    var json = { /*RgId: RegistrationId*/ };
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetAllCourse", "Course")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        $("#CourseId").empty();
+                        $.each(data, function (key, value) {
+                            console.log(value);
+                            $("#CourseId").append('<option value="' + value.Id + '">'+value.Name+'</option>');
+
+                        });
+
+                    }
+                    });
+
+
+
+            });
+
+            $("#StudentRegistrationNo").change(function () {
+                //console.log(TeacherId.value);
+
+                var RegistrationId = $("#StudentRegistrationNo").val();
+            $("#Name").empty();
+            $("#Name").val("");
+                $("#Department").val("");
+                console.log(RegistrationId);
+            var json = {
+                RgId: RegistrationId
+
+                };
+                console.log("hel");
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetStudentByRegistraionId", "Course")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    console.log("hello-2");
+
+                    $("#Name").val(data.Name);
+                    $("#Department").val(data.DepartmentName);
+                }
+                });
+               // console.log("hello-3");
+
+            });
+
+            });
+
+
+    </script>
+
+
+</body>
+</html>
+

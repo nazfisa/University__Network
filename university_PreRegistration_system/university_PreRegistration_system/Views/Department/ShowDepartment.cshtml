@@ -1,0 +1,41 @@
+﻿@using university_PreRegistration_system.Models
+@model List<university_PreRegistration_system.Models.Department>
+@{
+    ViewBag.Title = "ShowDepartment";
+    Layout=null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="~/Content/DataTables/media/css/jquery.dataTables.min.css" rel="stylesheet" />
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Department department in Model)
+            {
+                <tr>
+                    <td>@department.Code</td>
+                    <td>@department.Name</td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+    <p>
+        <input type="button" class="btn btn-primary" value="Back" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" />
+    </p>
+
+</body>
+
+</html>
+

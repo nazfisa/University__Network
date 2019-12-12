@@ -1,0 +1,103 @@
+﻿@using university_PreRegistration_system.Models
+@model AssaignCourse
+@{
+    ViewBag.Title = "showAssaignedCourse";
+    Layout = null;
+
+    List<Department> departments = ViewBag.departments;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm(null, null, FormMethod.Post))
+    {
+        <table>
+            <tr>
+                <td>
+                    @Html.Label("DepartmentId")
+                </td>
+                <td>
+                    <select id="DepartmentId" name="DepartmentId">
+                        <option value="">--Select--</option>
+                        @foreach (Department department in departments)
+                        {
+                            <option value="@department.Id">@department.Name</option>
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(x => x.DepartmentId)
+                </td>
+            </tr>
+
+            @*<tr>
+                    <td>
+                        @Html.Label("Department")
+                    </td>
+                    <td>
+                        <select id="EmployeeId" name="EmployeeId">
+                            <option value="">--Select--</option>
+                        </select>
+                    </td>
+                </tr>*@
+        </table>
+
+
+
+        <table>
+            <thead>
+                <tr>
+                    <td>Code</td>
+                    <td>Name</td>
+                    <td>Semester</td>
+                    <td>Assaign To</td>
+                </tr>
+            </thead>
+            <tbody id="CourseDetails"></tbody>
+        </table>
+    }
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            $("#DepartmentId").change(function () {
+
+                var departmentId = $("#DepartmentId").val();
+
+
+                var json = { deptId: departmentId };
+
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetCourseByDepartmentId", "TeacherAssaign")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+
+                        $("#CourseDetails").empty();
+
+
+                        $.each(data, function (key, value) {
+                            console.log(data);
+
+                            $("#CourseDetails").append('<tr><td>' + value.Code + '</td>   <td>' + value.Name + '</td>   <td>' + value.Semester + '</td> <td>' + value.TeacherName + '</td> </tr>');
+
+                        });
+
+                    }
+                });
+
+            });
+        });
+    </script>
+
+    <p>
+        <input type="button" class="btn btn-primary" value="Back" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" />
+    </p>
+</body>
+</html>
+

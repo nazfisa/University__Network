@@ -1,0 +1,260 @@
+﻿@using university_PreRegistration_system.Models
+@model AssaignCourse
+    @{
+
+        ViewBag.Title = "Save";
+        Layout = null;
+        List<Department> departments = ViewBag.departments;
+        // List<string> designations = ViewBag.designations;
+
+    }
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Teacher Assaign</title>
+        <style>
+            .field-validation-error {
+                color: orangered
+            }
+        </style>
+    </head>
+    <body>
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { onsubmit = "return checkCredit()" }))
+        {
+            <table>
+                <tr>
+                    <td>
+                        @Html.LabelFor(x => x.DepartmentId)
+                    </td>
+
+                    <td>
+                        <select id="DepartmentId" name="DepartmentId">
+                            <option value="">--Select--</option>
+                            @foreach (Department department in departments)
+                            {
+                                <option value="@department.Id">@department.Name</option>
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(x => x.DepartmentId)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(x => x.TeacherId)
+                    </td>
+
+                    <td>
+                        <select id="TeacherId" name="TeacherId">
+                            <option value="">--Select--</option>
+
+                        </select>
+                        @Html.ValidationMessageFor(x => x.TeacherId)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.Label("Credit to be Taken")
+
+                    </td>
+                    <td>
+                        <input type="text" readonly="readonly" name="CreditTobeTaken" id="CreditTobeTaken" /><br />
+                        <input type="hidden" name="TeacherName" id="TeacherName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.Label("Remaining Credit")
+
+                    </td>
+                    <td>
+                        <input type="text" readonly="readonly" name="RemainingCredit" id="RemainingCredit" /><br />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.Label("Course Code")
+                    </td>
+
+                    <td>
+                        <select id="CourseId" name="CourseId">
+                            <option value="">--Select--</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.Label("Name")
+
+                    </td>
+                    <td>
+                        <input type="text" readonly="readonly" name="Name" id="Name" /><br />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.Label("Credit")
+
+                    </td>
+                    <td>
+                        <input type="text" readonly="readonly" name="Credit" id="Credit" /><br />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td> <input type="submit" /> </td>
+                </tr>
+            </table>
+
+        }
+        <p>
+            <input type="button" class="btn btn-primary" value="Back" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" />
+        </p>
+        @if (ViewBag.Message != null)
+        {
+            <h3>@ViewBag.Message</h3>
+        }
+        <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+        <script>
+            function checkCredit() {
+                if ($("#RemainingCredit").val() - $("#Credit").val() < 0.0) {
+                    var ans = confirm("Teacher's Remaining Credit going to negative.Are You Sure?");
+                    if (ans === true) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            var RemainingCredit=0.0;
+            var CreditTobeTaken=0.0;
+            var CourseCredit=0.0;
+            $(document).ready(function () {
+
+
+            $("#DepartmentId").change(function () {
+
+                var departmentId = $("#DepartmentId").val();
+                $("#TeacherId").empty();
+                $("#CreditTobeTaken").val("");
+                $("#RemainingCredit").val("");
+
+                var json = { deptId: departmentId };
+
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetTeacherByDepartmentId", "TeacherAssaign")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+
+                        $("#TeacherId").empty();
+
+
+                        $.each(data, function (key, value) {
+                            console.log(value);
+                            $("#TeacherId").append('<option value="' + value.Id + '">'+value.Name+'</option>');
+
+                        });
+
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetAllCourseByDepartmentId", "TeacherAssaign")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+
+                        $("#CourseId").empty();
+
+
+                        $.each(data, function (key, value) {
+                            //console.log(value);
+                            $("#CourseId").append('<option value="' + value.Id + '">'+value.Code+'</option>');
+
+                        });
+
+                    }
+                });
+
+            });
+
+            $("#TeacherId").change(function () {
+                //console.log(TeacherId.value);
+
+                var teacherId = $("#TeacherId").val();
+                console.log(TeacherId.value);
+            $("#CreditTobeTaken").empty();
+            $("#CreditTobeTaken").val("");
+            $("#RemainingCredit").val("");
+            var json = {
+                TId: teacherId
+            };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetOneTeacherById", "TeacherAssaign")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    console.log("hello-2");
+
+                    console.log(data);
+                    CreditTobeTaken = data.CreditTobeTaken;
+                    RemainingCredit = data.RemainingCredit
+                    TeacherName = data.TeacherName;
+                    console.log(data.RemainingCredit);
+
+                    //RemainingCredit = CreditTobeTaken - CourseCredit;
+                    //console.log(CourseCredit);
+                    $("#TeacherName").val(data.Name);
+                   // console.log(TeacherName);
+                    $("#CreditTobeTaken").val(CreditTobeTaken);
+                    $("#RemainingCredit").val(data.RemainingCredit);
+                }
+                });
+               // console.log("hello-3");
+
+            });
+            $("#CourseId").change(function () {
+                //console.log(TeacherId.value);
+
+                var courseId = $("#CourseId").val();
+                console.log(TeacherId.value);
+                //$("#Name").empty();
+                $("#Credit").val("");
+                $("#Name").val("");
+            var json = {
+                CId: courseId
+            };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetOneCourseById", "TeacherAssaign")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                   //console.log("hello-2");
+
+                    //console.log(data);
+                    CourseCredit = data.Credit;
+                    $("#Name").val(data.Name);
+                    $("#Credit").val(data.Credit);
+                    RemainingCredit = RemainingCredit - CourseCredit;
+
+                    $("#RemainingCredit").val(RemainingCredit);
+                }
+                });
+                //console.log("hello-3");
+
+        });
+        });
+        </script>
+
+
+    </body>
+</html>
+

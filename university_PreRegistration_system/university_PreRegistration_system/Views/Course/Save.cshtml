@@ -1,0 +1,114 @@
+﻿@using university_PreRegistration_system.Models
+@model Course
+@{
+    ViewBag.Title = "Save";
+    Layout = null;
+    List<Department> departments = ViewBag.departments;
+    List<string> semesters = ViewBag.semesters;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Save Course</title>
+    <style>
+        .field-validation-error {
+            color: orangered
+        }
+    </style>
+</head>
+<body>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "signupForm" }))
+    {
+        <table>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Code)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.Code)
+                    @Html.ValidationMessageFor(x => x.Code)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Name)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.Name)
+                    @Html.ValidationMessageFor(x => x.Name)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Credit)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.Credit)
+                    @Html.ValidationMessageFor(x => x.Credit)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Description)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.Description)
+                    @Html.ValidationMessageFor(x => x.Description)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.DepartmentId)
+                </td>
+
+                <td>
+                    <select id="DepartmentId" name="DepartmentId">
+                        <option value="">--Select--</option>
+                        @foreach (Department department in departments)
+                        {
+                            <option value="@department.Id">@department.Name</option>
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(x => x.DepartmentId)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Semester)
+                </td>
+
+                <td>
+                    <select id="Semester" name="Semester">
+                        <option value="">--Select--</option>
+                        @foreach (string semester in semesters)
+                        {
+                            <option value="@semester">@semester</option>
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(x => x.Semester)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input name="Submit" type="submit" />
+                </td>
+            </tr>
+        </table>
+    }
+    @if (ViewBag.Message != null)
+    {
+        <h3>@ViewBag.Message</h3>
+    }
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <p>
+        <input type="button" class="btn btn-primary" value="Back" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" />
+    </p>
+</body>
+
+</html>
+

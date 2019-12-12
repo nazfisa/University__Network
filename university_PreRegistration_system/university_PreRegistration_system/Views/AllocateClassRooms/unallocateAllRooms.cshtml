@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "unallocateAllRooms";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title> </title>
+</head>
+<body>
+    @using (Html.BeginForm(null, null, FormMethod.Post))
+    {
+        <table>
+            <tr>
+                <td><input name="unAllocated ClassRoom" id="unAllocatedClassRoom" type="submit" value="unAllocated ClassRoom" /></td>
+            </tr>
+        </table>
+
+    }
+    @if (ViewBag.Message != null)
+    {
+        <h3>@ViewBag.Message</h3>
+    }
+    <p>
+        <input type="button" class="btn btn-primary" value="Back" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" />
+    </p>
+</body>
+</html>
+

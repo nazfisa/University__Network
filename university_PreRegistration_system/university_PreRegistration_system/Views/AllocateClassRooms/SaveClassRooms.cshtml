@@ -1,0 +1,124 @@
+﻿@using university_PreRegistration_system.Models
+@model AllocateClassrooms
+@{
+    ViewBag.Title = "SaveClassRooms";
+    Layout = null;
+    List<Department> departments = ViewBag.departments;
+    List<Course> courses = ViewBag.courses;
+    List<string> days = ViewBag.days;
+    List<string> rooms = ViewBag.rooms;
+    string CourseCode;
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm(null, null, FormMethod.Post))
+    {
+        <table>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.DepartmentId)
+                </td>
+                <td>
+                    <select id="DepartmentId" name="DepartmentId">
+                        <option value="">--Select--</option>
+                        @foreach (Department department in departments)
+                        {
+                            <option value="@department.Id">@department.Name</option>
+                        }
+                    </select>
+                    
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.CourseId)
+                </td>
+                <td>
+                    <select id="CourseId" name="CourseId">
+                        <option value="">--Select--</option>
+                        @foreach (Course course in courses)
+                        {
+                            <option value="@course.Id">@course.Name</option>
+                            CourseCode = course.Name;
+                        }
+
+                    </select>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.RoomNo)
+                </td>
+                <td>
+                    <select id="RoomNo" name="RoomNo">
+                        <option value="">--Select--</option>
+                        @foreach (string room in rooms)
+                        {
+                            <option value="@room">@room</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Day)
+                </td>
+                <td>
+                    <select id="Day" name="Day">
+                        <option value="">--Select--</option>
+                        @foreach (string day in days)
+                        {
+                            <option value="@day">@day</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.FromTime)
+                </td>
+                <td>
+                    @Html.EditorFor(x => x.FromTime)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.ToTime)
+                </td>
+                <td>
+                    @Html.EditorFor(x => x.ToTime)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" />
+                </td>
+            </tr>
+
+        </table>
+    }
+    @if (ViewBag.Message != null)
+    {
+        <h3>@ViewBag.Message</h3>
+    }
+        <p>
+            <input type="button" class="btn btn-primary" value="Back" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" />
+        </p>
+</body>
+</html>
+

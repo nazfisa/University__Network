@@ -1,0 +1,112 @@
+﻿@using university_PreRegistration_system.Models
+@model Student
+@{
+    ViewBag.Title = "StudentRegitration";
+    List<Department> departments = ViewBag.departments;
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script>
+        $(function () {
+            $("#datepicker").datepicker(
+                {
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: 'yy/mm/dd'
+                });
+        });
+    </script>
+
+</head>
+<body>
+    @using (Html.BeginForm(null, null, FormMethod.Post))
+    {
+        <table>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Name)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.Name)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.contractNo)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.contractNo)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Date)
+                </td>
+                <td>
+                    @*@Html.EditorFor(x => x.Date, new { htmlattributes = new { @class = "Datepicker" } })*@
+                    @*<input id="datepicker" type="text" />*@
+                    @Html.EditorFor(x => x.Date,
+                    new { htmlAttributes = new { @class = "form-control date-picker" } })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.Address)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.Address)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.DepartmentId)
+                </td>
+                <td>
+                    <select id="DepartmentId" name="DepartmentId">
+                        <option value="">--Select--</option>
+                        @foreach (Department department in departments)
+                        {
+                            <option value="@department.Id">@department.Name</option>
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(x => x.DepartmentId)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" />
+                </td>
+            </tr>
+        </table>
+
+    }
+    @if (ViewBag.Message != null)
+    {
+        <h3>@ViewBag.Message</h3>
+    }
+
+    <link href="~/Styles/jquery-ui.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".date-picker").datepicker({
+                dateFormat: 'dd-M-yy'
+            });
+
+        });
+    </script>
+    <p>
+        <input type="button" class="btn btn-primary" value="Back" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" />
+    </p>
+</body>
+</html >
+

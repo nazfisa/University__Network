@@ -1,0 +1,124 @@
+﻿@using university_PreRegistration_system.Models
+@model Teacher
+    @{
+        ViewBag.Title = "Save";
+
+        Layout = null;
+        List<Department> departments = ViewBag.departments;
+        List<string> designations = ViewBag.designations;
+    }
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Save Teacher</title>
+        <style>
+            .field-validation-error {
+                color: orangered
+            }
+        </style>
+    </head>
+    <body>
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "signupForm" }))
+        {
+            <table>
+                <tr>
+                    <td>
+                        @Html.LabelFor(x => x.Name)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(x => x.Name)
+                        @Html.ValidationMessageFor(x => x.Name)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(x => x.Address)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(x => x.Address)
+                        @Html.ValidationMessageFor(x => x.Address)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(x => x.Email)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(x => x.Email)
+                        @Html.ValidationMessageFor(x => x.Email)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(x => x.ContractNo)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(x => x.ContractNo)
+                        @Html.ValidationMessageFor(x => x.ContractNo)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(x => x.Designation)
+                    </td>
+
+                    <td>
+                        <select id="Designation" name="Designation">
+                            <option value="">--Select--</option>
+                            @foreach (string designation in designations)
+                            {
+                                <option value="@designation">@designation</option>
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(x => x.Designation)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(x => x.DepartmentId)
+                    </td>
+
+                    <td>
+                        <select id="DepartmentId" name="DepartmentId">
+                            <option value="">--Select--</option>
+                            @foreach (Department department in departments)
+                            {
+                                <option value="@department.Id">@department.Name</option>
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(x => x.DepartmentId)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(x => x.CreditTobeTaken)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(x => x.CreditTobeTaken)
+                        @Html.ValidationMessageFor(x => x.CreditTobeTaken)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input name="Submit" type="submit" />
+                    </td>
+                </tr>
+            </table>
+        }
+        @if (ViewBag.Message != null)
+        {
+            <h3>@ViewBag.Message</h3>
+        }
+
+        <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        <p>
+            <input type="button" class="btn btn-primary" value="Back" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" />
+        </p>
+    </body>
+</html>
+

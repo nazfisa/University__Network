@@ -1,0 +1,32 @@
+﻿@*@using university_PreRegistration_system.Models
+    @model AssaignCourse*@
+@{
+    ViewBag.Title = "unassaignAllCourse";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm(null, null, FormMethod.Post))
+    {
+        <table>
+            <tr>
+                <td><input name="UnAssaign Course" id="unAssignCourse" type="submit" value="UnAssaign Course" /></td>
+            </tr>
+        </table>
+
+    }
+    @if (ViewBag.Message != null)
+    {
+        <h3>@ViewBag.Message</h3>
+    }
+    <p>
+        <input type="button" class="btn btn-primary" value="Back" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" />
+    </p>
+</body>
+</html>
+

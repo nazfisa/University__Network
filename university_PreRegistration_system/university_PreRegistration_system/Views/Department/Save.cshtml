@@ -1,0 +1,68 @@
+﻿@using university_PreRegistration_system.Models
+@model Department 
+@{
+    ViewBag.Title = "Save";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Department Insertion</title>
+    <style>
+        .field-validation-error{
+            color:orangered
+        }
+    </style>
+</head>
+<body>
+    
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "signupForm" }))
+        {
+        <table>
+            <tr>
+                <td>
+                    @Html.LabelFor(x=>x.Code)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x=>x.Code)
+                    @Html.ValidationMessageFor(x=>x.Code)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(x=>x.Name)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x=>x.Name)
+                    @Html.ValidationMessageFor(x=>x.Name)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                   
+                </td>
+                <td>
+                    <input name="Submit" type="submit" />
+                </td>
+            </tr>
+        </table>
+        }
+        @if(ViewBag.Message!=null)
+        {
+            <h3>@ViewBag.Message</h3>
+        }
+
+    
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <p>
+        <input type="button" class="btn btn-primary" value="Back" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" />
+    </p>
+
+</body>
+
+</html>
+
